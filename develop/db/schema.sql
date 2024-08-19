@@ -3,6 +3,10 @@ CREATE DATABASE employee_tracker;
 
 \c employee_tracker;
 
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS departments;
+
 
 CREATE TABLE departments (
 department_id SERIAL PRIMARY KEY,
