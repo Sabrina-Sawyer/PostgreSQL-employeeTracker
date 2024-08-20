@@ -20,12 +20,12 @@ class companyData {
             } else if (answers.choices === 'Add') {
                 await this.addData();
             } if (answers.choices === 'Update') {
-               await  this.updateData();
+               await this.updateData();
             }
 }
 
 private async viewData(): Promise<void> {
-    const { datatype } = await. inquirer.prompt{[
+    const { dataType } = await inquirer.prompt{[
         {
             type: 'list'
             name: 'dataType'
@@ -34,7 +34,7 @@ private async viewData(): Promise<void> {
         },
     ]};
     if (dataType === 'Departments') {
-        await this.viewDeparments();
+        await this.viewDepartments();
     } else if (dataType === 'Roles') {
         await this.viewRoles();
     } else if (dataType === 'Employees') {
@@ -43,12 +43,31 @@ private async viewData(): Promise<void> {
 }
 
 private async viewDepartments(): Promise<void> {
-    const result = await pool.query('SELECT department_id, department_name FROM departments');
+    const result = await pool.query('SELECT * FROM departments');
     const departments = result.rows;
     if (departments.length > 0) {
         console.table(departments);
     } else {
         console.log('No departments found.');
+    }
+}
+private async viewRoles(): Promise<void> {
+    const result = await pool.query('SELECT * FROM roles');
+    const roles = result.rows;
+    if (roles.length > 0) {
+        console.table(roles);
+    } else {
+        console.log('No roles found.');
+    }
+}
+
+private async viewEmployees(): Promise<void> {
+    //  const result = await pool.query('SELECT * FROM employees FULL OUTER JOIN roles ON employees.role_id = roles.role_id');
+    const employees = result.rows;
+    if (employees.length > 0) {
+        console.table(employees);
+    } else {
+        console.log('No employees found.');
     }
 }
 
@@ -75,35 +94,31 @@ private async addData(): Promise<void> {
 
 //not finished 
 private async createDepartment(): Promise<void> {
-    inquirer
-            .prompt([
+   try { 
+    const answers = await inquirer.prompt([
         {
             type: 'input',
             name: 'department',
             message: 'Enter Department Name',
         },
-    ])
-        .then((answers) => {
+    ]);
             const departmentName = answers.department;
-            pool.query('INSERT INTO departments (department_name) VALUES ($1)', [departmentName], (error, results) => {
-                if (error) {
-                    console.error('Error adding department:', error);
-                } else {
+            const results = await pool.query('INSERT INTO departments (department_name) VALUES ($1)', [departmentName]); 
                     console.log('Department added sucessfully!');
+                } catch (error) {
+                    console.error('Error adding department:', error);
                 }
-            });
-        });
-}
+            }
 //not finished 
-private async createRole(): Promise<void> {
-    const result = await this.pool.query('SELECT department_name FROM departments');
-    const departments = result.rows;
+// private async createRole(): Promise<void> {
+//     const result = await this.pool.query('SELECT department_name FROM departments');
+//     const departments = result.rows;
 
-    if (department.length === 0) {
-        console.log('No departments found.');
-        return;
-    }
-}
+//     if (departments.length === 0) {
+//         console.log('No departments found.');
+//         return;
+//     }
+// }
     const departmentChoices = departments.map(department => ({
         name: department.department_name,
         value: department.department_id,
@@ -126,15 +141,15 @@ private async createRole(): Promise<void> {
             choices: departmentChoices,
         },
     ])
-        .then((answers) => {
-            let sql = `INSERT INTO department (department_name) VALUES (?)`;
-            connection.query(sql, answer.department, (error, response) =>
-                if (error) throw error;
-                console.log(answer.department + `was sucessfully created.`);
-                viewAllDepartments();
-            });
+        // .then((answers) => {
+        //     let sql = `INSERT INTO department (department_name) VALUES (?)`;
+        //     connection.query(sql, answer.department, (error, response) =>
+        //         if (error) throw error;
+        //         console.log(answer.department + `was sucessfully created.`);
+        //         viewAllDepartments();
+        //     });
         }
 
 
 
-// }
+}

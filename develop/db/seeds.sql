@@ -6,7 +6,7 @@ VALUES
 ('design'),
 ('managment');
 
-INSERT INTO roles (job_title, department_id, salary) 
+INSERT INTO roles (job_title, department_id, salary)
 VALUES
 ('social media specialist', 1, 65000.00),
 ('graphic designer', 4, 60000.00),
@@ -17,9 +17,9 @@ VALUES
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id) 
 VALUES
-('lunafreya', 'fleuret', 6);
-('ciri', 'riannon', 1, 'fleuret'),
-('princess', 'zelda', 2, 'fleuret'),
-('lara', 'croft', 3, 'fleuret'),
-('tifa', 'lockheart', 4, 'fleuret'),
-('yuna', 'braska', 5, 'fleuret'),
+('lunafreya', 'fleuret', 6, 1),
+('ciri', 'riannon', 1, 1),
+('princess', 'zelda', 2, 1),
+('lara', 'croft', 3, 1),
+('tifa', 'lockheart', 4, 1),
+('yuna', 'braska', 5, 1);
