@@ -273,24 +273,27 @@ class companyData {
                 message: 'Select the new role for the employee:',
                 choices: roles,
             });
-            const managersResults: QueryResult<Employee> = await pool.query('SELECT manager_id, last_name FROM employees')
-            const managers = managersResults.rows;
-            const managerChoices = managers.map(employees => ({
-                name: employees.last_name,
-                value: employees.manager_id,
+            const managerResult: QueryResult<Employee> = await pool.query('SELECT employee_id, first_name, last_name FROM employees');
+            const managers = managerResult.rows.map(emp => ({
+                name: `${emp.first_name} ${emp.last_name}`,
+                value: emp.employee_id,
             }));
 
-            const { manager } = await inquirer.prompt<{ manager: number }>({
+            const { newManager } = await inquirer.prompt<{ newManager: number | null }>({
                 type: 'list',
-                name: 'manager',
-                message: 'Select the manager for the employee:',
-                choices: managerChoices,
+                name: 'newManager',
+                message: 'Select the new manager for the employee:',
+                choices: managers,
             });
 
-            await pool.query('UPDATE employees SET role_id = $1 WHERE employee_id = $2', [newRole, selectedEmployee]);
-            console.log('Employee role updated successfully!');
+            await pool.query(
+                'UPDATE employees SET role_id = $1, manager_id = $2 WHERE employee_id = $3',
+                [newRole, newManager, selectedEmployee]
+            );
+
+            console.log('Employee role and manager updated successfully!');
         } catch (error) {
-            console.error('Error updating employee role:', error);
+            console.error('Error updating employee role and manager:', error);
         }
     }
 }
