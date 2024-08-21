@@ -24,7 +24,7 @@ interface Employee {
     manager_id: number | null;
 
 }
-class companyData {
+class CompanyData {
     public async makeSelection(): Promise<void> {
         const answers = await inquirer.prompt<{ choices: string }>([
             {
@@ -42,7 +42,6 @@ class companyData {
             await this.updateData();
         }
     }
-
     private async viewData(): Promise<void> {
         const { dataType } = await inquirer.prompt<{ dataType: string }>([
             {
@@ -296,4 +295,26 @@ class companyData {
             console.error('Error updating employee role and manager:', error);
         }
     }
+    
+    public async startCompanyData(): Promise<void> {
+        const answers = await inquirer.prompt<{ choices: string }>([
+            {
+                type: 'list',
+                name: 'choices',
+                message: 'Would you like to view, add, or update the employee data?',
+                choices: ['View', 'Add', 'Update'],
+            },
+        ]);
+        if (answers.choices === 'View') {
+            await this.viewData();
+        } else if (answers.choices === 'Add') {
+            await this.addData();
+        } if (answers.choices === 'Update') {
+            await this.updateData();
+        }
+    }
+    
 }
+const compData = new CompanyData();
+compData.makeSelection();
+
