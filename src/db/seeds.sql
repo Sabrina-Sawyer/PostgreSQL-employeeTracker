@@ -17,7 +17,7 @@ VALUES
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id) 
 VALUES
-('lunafreya', 'fleuret', 6, 1 ),
+('lunafreya', 'fleuret', 6, 1),
 ('ciri', 'riannon', 1, 1),
 ('princess', 'zelda', 2, 1),
 ('lara', 'croft', 3, 1),
