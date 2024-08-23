@@ -69,6 +69,22 @@ class CompanyData {
         } else {
             console.log('No departments found.');
         }
+        const { action } = await inquirer.prompt<{ action: string }>({
+            type: 'list',
+            name: 'action',
+            message: 'What would you like to do next?',
+            choices: [
+                { name: 'Go back to the main menu', value: 'menu' },
+                { name: 'Exit', value: 'exit' }
+            ]
+        });
+
+        if (action === 'menu') {
+            this.makeSelection();
+        } else {
+            console.log('Goodbye!');
+            process.exit(); 
+        }
     }
     private async viewRoles(): Promise<void> {
         const result: QueryResult<Role> = await pool.query('SELECT * FROM roles');
@@ -77,6 +93,22 @@ class CompanyData {
             console.table(roles);
         } else {
             console.log('No roles found.');
+        }
+        const { action } = await inquirer.prompt<{ action: string }>({
+            type: 'list',
+            name: 'action',
+            message: 'What would you like to do next?',
+            choices: [
+                { name: 'Go back to the main menu', value: 'menu' },
+                { name: 'Exit', value: 'exit' }
+            ]
+        });
+
+        if (action === 'menu') {
+            this.makeSelection(); 
+        } else {
+            console.log('Goodbye!');
+            process.exit(); 
         }
     }
 
@@ -88,6 +120,22 @@ class CompanyData {
             console.table(employees);
         } else {
             console.log('No employees found.');
+        }
+        const { action } = await inquirer.prompt<{ action: string }>({
+            type: 'list',
+            name: 'action',
+            message: 'What would you like to do next?',
+            choices: [
+                { name: 'Go back to the main menu', value: 'menu' },
+                { name: 'Exit', value: 'exit' }
+            ]
+        });
+
+        if (action === 'menu') {
+            this.makeSelection(); 
+        } else {
+            console.log('Goodbye!');
+            process.exit(); 
         }
     }
 
@@ -112,7 +160,7 @@ class CompanyData {
         }
     }
 
-    //not finished 
+    
     private async createDepartment(): Promise<void> {
         try {
             const answers = await inquirer.prompt<{ department: string }>([
@@ -125,6 +173,22 @@ class CompanyData {
             const departmentName = answers.department;
             await pool.query('INSERT INTO departments (department_name) VALUES ($1)', [departmentName]);
             console.log('Department added successfully!');
+            const { action } = await inquirer.prompt<{ action: string }>({
+                type: 'list',
+                name: 'action',
+                message: 'What would you like to do next?',
+                choices: [
+                    { name: 'Go back to the main menu', value: 'menu' },
+                    { name: 'Exit', value: 'exit' }
+                ]
+            });
+    
+            if (action === 'menu') {
+                this.makeSelection(); 
+            } else {
+                console.log('Goodbye!');
+                process.exit(); 
+            }
         } catch (error) {
             console.error('Error adding department:', error);
         }
@@ -168,6 +232,22 @@ class CompanyData {
             const { job_title, salary, department } = answers;
             await pool.query('INSERT INTO roles (job_title, salary, department_id) VALUES ($1, $2, $3)', [job_title, salary, department]);
             console.log('Role added successfully!');
+            const { action } = await inquirer.prompt<{ action: string }>({
+                type: 'list',
+                name: 'action',
+                message: 'What would you like to do next?',
+                choices: [
+                    { name: 'Go back to the main menu', value: 'menu' },
+                    { name: 'Exit', value: 'exit' }
+                ]
+            });
+    
+            if (action === 'menu') {
+                this.makeSelection(); 
+            } else {
+                console.log('Goodbye!');
+                process.exit(); 
+            }
         } catch (error) {
             console.error('Error adding role:', error);
         }
@@ -235,6 +315,22 @@ class CompanyData {
                 [first_name, last_name, manager, role]
             );
             console.log('Employee added successfully!');
+            const { action } = await inquirer.prompt<{ action: string }>({
+                type: 'list',
+                name: 'action',
+                message: 'What would you like to do next?',
+                choices: [
+                    { name: 'Go back to the main menu', value: 'menu' },
+                    { name: 'Exit', value: 'exit' }
+                ]
+            });
+    
+            if (action === 'menu') {
+                this.makeSelection();
+            } else {
+                console.log('Goodbye!');
+                process.exit(); 
+            }
         } catch (error) {
             console.error('Error adding employee:', error);
         }
@@ -291,6 +387,22 @@ class CompanyData {
             );
 
             console.log('Employee role and manager updated successfully!');
+            const { action } = await inquirer.prompt<{ action: string }>({
+                type: 'list',
+                name: 'action',
+                message: 'What would you like to do next?',
+                choices: [
+                    { name: 'Go back to the main menu', value: 'menu' },
+                    { name: 'Exit', value: 'exit' }
+                ]
+            });
+    
+            if (action === 'menu') {
+                this.makeSelection(); 
+            } else {
+                console.log('Goodbye!');
+                process.exit(); 
+            }
         } catch (error) {
             console.error('Error updating employee role and manager:', error);
         }
